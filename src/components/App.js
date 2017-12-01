@@ -5,7 +5,7 @@ import { Route, Link, withRouter } from 'react-router-dom';
 import List from './List';
 import Post from './Post';
 
-import { fetchCategories } from '../actions';
+import { fetchCategories, fetchPosts } from '../actions';
 
 import './App.css';
 
@@ -13,30 +13,32 @@ class App extends Component {
 
   componentDidMount = () => {
     this.props.fetchCategories();
+    this.props.fetchPosts();
   }
 
   render() {
 
-    const { categories } = this.props;
+    const { categories, posts } = this.props;
 
     return (
       <div className="App">
         <div id="header">
+          <div id="newPost">
+            <button onClick={() => false}>New Post</button>
+          </div>
           <div id="categories">
               <div><Link to="/">All</Link></div>
             {categories.map( ({ name, path }) =>
               <div key={path}><Link to={'/' + path}>{name}</Link></div>
             )}
           </div>
-          <div id="newPost">
-            <button onClick={() => false}>New Post</button>
-          </div>
+          
         </div>
         <div id="main">
           <Route exact path="/" render={() =>
             <List
               title="All"
-              posts={ [1, 2, 3] }/>
+              posts={posts}/>
           }/>
           <Route exact path="/:category" render={({match}) =>
             <List
@@ -62,7 +64,8 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    fetchCategories: () => dispatch(fetchCategories())
+    fetchCategories: () => dispatch(fetchCategories()),
+    fetchPosts: () => dispatch(fetchPosts())
   }
 }
 
