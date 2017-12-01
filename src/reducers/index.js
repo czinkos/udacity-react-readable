@@ -1,11 +1,5 @@
-import { combineReducers } from 'redux'
-
 import {
-  NEW_POST,
-  DELETE_POST,
-  UPDATE_POST,
-  FETCH_POSTS,
-  FETCH_CATEGORIES
+  RECEIVE_CATEGORIES
 } from '../actions'
 
 const initialState = {
@@ -17,19 +11,16 @@ const initialState = {
 
 function reducer(state = initialState, action) {
   switch (action.type) {
-    case NEW_POST :
+    case RECEIVE_CATEGORIES:
+      const { categories } = action;
       return {
         ...state,
-        posts: {
-          ...state.posts,
-          [action.post.id]: action.post
-        }
+        categories
       }
+
     default :
       return state
   }
 }
 
-export default combineReducers({
- reducer
-})
+export default reducer;

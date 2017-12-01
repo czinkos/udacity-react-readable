@@ -1,39 +1,15 @@
-export const NEW_POST = 'NEW_POST';
-export const DELETE_POST = 'DELETE_POST';
-export const UPDATE_POST = 'UPDATE_POST';
-export const FETCH_POSTS = 'FETCH_POSTS';
-export const FETCH_CATEGORIES = 'FETCH_CATEGORIES';
+import * as API from '../utils/api';
 
-export function newPost(post) {
-  return {
-    type: NEW_POST,
-    post
-  }
-}
+export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES';
 
-export function deletePost(postId) {
-  return {
-    type: DELETE_POST,
-    postId
-  }
-}
+export const receiveCategories = ( {categories} ) => ({
+  type: RECEIVE_CATEGORIES,
+  categories
+})
 
-export function updatePost(post) {
-  return {
-    type: UPDATE_POST,
-    post
-  }
-}
+export const fetchCategories = () => dispatch => (
+  API
+    .fetchCategories()
+    .then(data => dispatch(receiveCategories(data)))
+);
 
-export function fetchPosts(category) {
-  return {
-    type: FETCH_POSTS,
-    category
-  }
-}
-
-export function fetchCategories() {
-  return {
-    type: FETCH_CATEGORIES
-  }
-}

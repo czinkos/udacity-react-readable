@@ -5,15 +5,25 @@ import { Route, Link } from 'react-router-dom';
 import List from './List';
 import Post from './Post';
 
-import { deletePost, FETCH_CATEGORIES, fetchCategories, fetchPosts, newPost, updatePost } from '../actions';
+import { fetchCategories } from '../actions';
 
 class App extends Component {
+
+  componentDidMount = () => {
+    this.props.fetchCategories();
+  }
+
   render() {
+
+    const { categories } = this.props;
+
     return (
       <div className="App">
         <div id="header">
           <div id="categories">
-            <div><Link to="/cat1">cat 1</Link></div>
+            {categories.map( ({ name, path }) =>
+              <div key={path}><Link to={'/' + path}>{name}</Link></div>
+            )}
           </div>
           <div id="newPost">
             <button onClick={() => false}>New Post</button>
@@ -49,10 +59,6 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    newPost: (post) => dispatch(newPost(post)),
-    updatePost: (post) => dispatch(updatePost(post)),
-    deletePost: (postId) => dispatch(deletePost(postId)),
-    fetchPosts: (category) => dispatch(fetchPosts(category)),
     fetchCategories: () => dispatch(fetchCategories())
   }
 }
