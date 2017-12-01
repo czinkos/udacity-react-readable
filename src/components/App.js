@@ -7,6 +7,8 @@ import Post from './Post';
 
 import { fetchCategories } from '../actions';
 
+import './App.css';
+
 class App extends Component {
 
   componentDidMount = () => {
@@ -21,6 +23,7 @@ class App extends Component {
       <div className="App">
         <div id="header">
           <div id="categories">
+              <div><Link to="/">All</Link></div>
             {categories.map( ({ name, path }) =>
               <div key={path}><Link to={'/' + path}>{name}</Link></div>
             )}
