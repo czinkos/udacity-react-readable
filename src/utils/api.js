@@ -13,6 +13,6 @@ export const fetchCategories = () =>
   fetch(api + '/categories', { headers })
     .then(res => res.json());
 
-export const fetchPosts = () =>
-  fetch(api + '/posts', { headers })
+export const fetchPosts = (category) =>
+  fetch(api + (category ? '/' + category : '') + '/posts', { headers })
     .then(res => res.json());

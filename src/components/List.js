@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 class List extends Component {
   render() {
     const { title, posts } = this.props;
-console.log(posts);
     return (
       <div className="list">
         <h1>{ title }</h1>

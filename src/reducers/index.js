@@ -11,7 +11,6 @@ const initialState = {
 }
 
 function reducer(state = initialState, action) {
-  console.log(action)
   switch (action.type) {
     case RECEIVE_CATEGORIES:
       const { categories } = action;
@@ -23,7 +22,7 @@ function reducer(state = initialState, action) {
       const { posts } = action;
       return {
         ...state,
-        posts
+        posts: posts.filter(e => !e.deleted)
       }
     default :
       return state

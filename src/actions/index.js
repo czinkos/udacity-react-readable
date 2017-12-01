@@ -19,8 +19,8 @@ export const receivePosts = ( posts ) => ({
   posts
 })
 
-export const fetchPosts = () => dispatch => (
+export const fetchPosts = (category) => dispatch => (
   API
-    .fetchPosts()
+    .fetchPosts(category)
     .then(data => dispatch(receivePosts(data)))
 );

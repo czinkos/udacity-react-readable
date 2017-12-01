@@ -13,12 +13,11 @@ class App extends Component {
 
   componentDidMount = () => {
     this.props.fetchCategories();
-    this.props.fetchPosts();
   }
 
   render() {
 
-    const { categories, posts } = this.props;
+    const { categories, posts, fetchPosts } = this.props;
 
     return (
       <div className="App">
@@ -32,19 +31,23 @@ class App extends Component {
               <div key={path}><Link to={'/' + path}>{name}</Link></div>
             )}
           </div>
-          
+
         </div>
         <div id="main">
           <Route exact path="/" render={() =>
+            fetchPosts() &&
             <List
               title="All"
               posts={posts}/>
           }/>
-          <Route exact path="/:category" render={({match}) =>
-            <List
-              title={ match.params.category}
-              posts={ [4, 5, 6] }/>
-          } />
+          <Route exact path="/:category" render={({match}) => {
+            const category = match.params.category;
+            fetchPosts(category);
+            return (
+              <List
+                title={ category}
+                posts={ posts }/>)
+          }} />
           <Route exact path="/:category/:post_id" render={({match}) =>
             <Post
               category={match.params.category}
@@ -65,7 +68,7 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
   return {
     fetchCategories: () => dispatch(fetchCategories()),
-    fetchPosts: () => dispatch(fetchPosts())
+    fetchPosts: (category) => dispatch(fetchPosts(category))
   }
 }
 
