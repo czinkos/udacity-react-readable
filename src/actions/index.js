@@ -33,11 +33,9 @@ export const receivePosts = ( posts ) => ({
 })
 
 export const fetchPosts = (category) => dispatch => {
-  setTimeout( () => 
   API
     .fetchPosts(category)
-    .then(data => dispatch(receivePosts(data)))
-  , 1000);
+    .then(data => dispatch(receivePosts(data)));
 }
 
 export const receivePost = ( post ) => ({
