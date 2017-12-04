@@ -5,7 +5,7 @@ import { Route, Link, withRouter } from 'react-router-dom';
 import List from './List';
 import Post from './Post';
 
-import { fetchCategories, fetchPosts } from '../actions';
+import { fetchCategories, fetchPosts, fetchPost, setSortBy } from '../actions';
 
 import './App.css';
 
@@ -17,7 +17,25 @@ class App extends Component {
 
   render() {
 
-    const { categories, posts, fetchPosts } = this.props;
+    const { categories, posts, post, sortBy, fetchPosts, fetchPost, setSortBy } = this.props;
+
+    const renderList = ({ match }) => {
+      const category = match.params.category;
+      fetchPosts(category);
+      return <List
+          sortBy={sortBy}
+          onSortByChange={setSortBy}
+          title={ category ? category : 'All'}
+          posts={ posts } />
+    }
+
+    const renderPost = (edit, post) => ({match}) => {
+      const { category, post_id } = match.params;
+      this.props.fetchPost(category, post_id);
+      return <Post
+        post={post}
+        edit={edit} />
+    }
 
     return (
       <div className="App">
@@ -31,28 +49,12 @@ class App extends Component {
               <div key={path}><Link to={'/' + path}>{name}</Link></div>
             )}
           </div>
-
         </div>
         <div id="main">
-          <Route exact path="/" render={() =>
-            fetchPosts() &&
-            <List
-              title="All"
-              posts={posts}/>
-          }/>
-          <Route exact path="/:category" render={({match}) => {
-            const category = match.params.category;
-            fetchPosts(category);
-            return (
-              <List
-                title={ category}
-                posts={ posts }/>)
-          }} />
-          <Route exact path="/:category/:post_id" render={({match}) =>
-            <Post
-              category={match.params.category}
-              postId={match.params.post_id}/>
-          } />
+          <Route exact path="/" render={renderList} />
+          <Route exact path="/:category" render={renderList} />
+          <Route exact path="/:category/:post_id" render={renderPost(false, post)} />
+          <Route exact path="/edit/:category/:post_id" render={renderPost(true, post)}/>
         </div>
       </div>
     );
@@ -68,7 +70,9 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
   return {
     fetchCategories: () => dispatch(fetchCategories()),
-    fetchPosts: (category) => dispatch(fetchPosts(category))
+    fetchPosts: (category) => dispatch(fetchPosts(category)),
+    fetchPost: (category, post_id) => dispatch(fetchPost(category, post_id)),
+    setSortBy: sortBy => dispatch(setSortBy(sortBy))
   }
 }
 

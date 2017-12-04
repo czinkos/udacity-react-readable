@@ -2,6 +2,19 @@ import * as API from '../utils/api';
 
 export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES';
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
+export const RECEIVE_POST = 'RECEIVE_POST';
+export const SET_SORTBY = 'SET_SORTBY';
+export const SET_LOADING = 'SET_LOADING';
+
+export const setSortBy = ( sortBy ) => ({
+  type: SET_SORTBY,
+  sortBy
+})
+
+export const setLoading = ( loading ) => ({
+  type: SET_LOADING,
+  loading
+})
 
 export const receiveCategories = ( {categories} ) => ({
   type: RECEIVE_CATEGORIES,
@@ -19,8 +32,21 @@ export const receivePosts = ( posts ) => ({
   posts
 })
 
-export const fetchPosts = (category) => dispatch => (
+export const fetchPosts = (category) => dispatch => {
+  setTimeout( () => 
   API
     .fetchPosts(category)
     .then(data => dispatch(receivePosts(data)))
-);
+  , 1000);
+}
+
+export const receivePost = ( post ) => ({
+  type: RECEIVE_POST,
+  post
+})
+
+export const fetchPost = (category, postId) => dispatch => {
+  API
+    .fetchPost(category, postId)
+    .then(data => dispatch(receivePost(data)))
+}

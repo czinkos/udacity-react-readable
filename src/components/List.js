@@ -4,10 +4,15 @@ import { Link } from 'react-router-dom';
 
 class List extends Component {
   render() {
-    const { title, posts } = this.props;
+    const { title, posts, location, loading, sortBy, onSortByChange } = this.props;
     return (
       <div className="list">
         <h1>{ title }</h1>
+        <div id="sort">
+          Sort by
+          <button onClick={ () => onSortByChange('timestamp')}>timestamp</button>
+          <button onClick={ () => onSortByChange('voteScore')}>voteScore</button>
+        </div>
         <div>
         {
           posts.map(p =>
