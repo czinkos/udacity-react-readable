@@ -16,6 +16,7 @@ const initialState = {
 }
 
 const sort = (arr, field) => arr.slice().sort( (a, b) => a[field] > b[field] );
+const notDeleted = e => !e.deleted;
 
 function reducer(state = initialState, action) {
   switch (action.type) {
@@ -27,7 +28,7 @@ function reducer(state = initialState, action) {
     case SET_SORTBY:
       return {
         ...state,
-        posts: sort(state.posts, action.sortBy),
+        posts: sort(state.posts.filter(notDeleted), action.sortBy),
         sortBy: action.sortBy
       }
     case RECEIVE_CATEGORIES:
@@ -40,7 +41,7 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        posts: sort(posts.filter(e => !e.deleted), state.sortBy)
+        posts: sort(posts.filter(notDeleted), state.sortBy)
       }
     case RECEIVE_POST:
       return {

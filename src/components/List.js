@@ -24,7 +24,7 @@ class List extends Component {
 
     return (
       <div className="list">
-        <h1>{ params.category || 'All' } { loading && <small>loading...</small> }</h1>
+        <h1>{ params.category || 'All' } { loading && <small> loading...</small> }</h1>
         <div id="sort">
           Sort by:{' '}
           <button className={ sortBy === 'timestamp' ? 'selected' : ''  }
