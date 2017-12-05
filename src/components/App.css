@@ -48,16 +48,18 @@ button {
 }
 
 .list .post .voteScore .arrow {
-  font-weight: normal;
-  width: 1em;
+  width: 1.5em;
+  display: inline-block;
+  text-align: center;
   cursor: pointer;
+  background-color: #CCC;
 }
 
 .list .post .voteScore {
   margin-right: 0em;
   font-weight: normal;
   display: inline-block;
-  width: 5em;
+  width: 6em;
 }
 
 .list .post .voteScore span:nth-child(2) {
