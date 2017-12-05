@@ -32,3 +32,12 @@ export const setScore = (option, postId) =>
       body: `{ "option": "${option}" }`
     })
     .then(res => res.json());
+
+
+export const deletePost = (option, postId) =>
+  fetch(api + '/posts/' + postId,
+    {
+      headers,
+      method: 'DELETE'
+    })
+    .then(res => res.json());

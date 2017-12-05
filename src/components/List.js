@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 
-import { fetchPosts, setSortBy, setScore } from '../actions';
+import { fetchPosts, setSortBy, setScore, deletePost } from '../actions';
 
 class List extends Component {
 
@@ -15,7 +15,12 @@ class List extends Component {
   }
 
   render() {
-    const { match: { params }, posts, setSortBy, loading, sortBy, upVote, downVote } = this.props;
+    const { match: { params }, posts, setSortBy, loading, sortBy, upVote, downVote, deletePost } = this.props;
+
+    const formatDate = timestamp => {
+      const date = new Date(timestamp);
+      return date.toLocaleTimeString() + ' - ' + date.toLocaleDateString();
+    }
 
     return (
       <div className="list">
@@ -44,8 +49,12 @@ class List extends Component {
               <div className="dateline">
                 <div className="author">{p.author}</div>
                 <div className="commentCount">{p.commentCount} comment{ p.commentCount > 1 ? 's' : ''}</div>
-                <div className="timestamp">{new Date(p.timestamp).toLocaleDateString()}</div>
-                <div><Link to={'/edit/' + p.category + '/' + p.id}>Edit</Link></div>
+                <div className="timestamp">{formatDate(p.timestamp)}</div>
+                <div>
+                  <Link to={'/edit/' + p.category + '/' + p.id}>Edit</Link> |
+                  <a href=""
+                     onClick={(e) => e.preventDefault() && deletePost(p.category, p.id)}>Delete</a>
+                </div>
               </div>
             </div>
           )
@@ -70,7 +79,8 @@ function mapDispatchToProps (dispatch) {
     fetchPosts: (category) => dispatch(fetchPosts(category)),
     setSortBy: sortBy => dispatch(setSortBy(sortBy)),
     upVote: (category, postId) => dispatch(setScore('upVote', category, postId)),
-    downVote: (category, postId) => dispatch(setScore('downVote', category, postId))
+    downVote: (category, postId) => dispatch(setScore('downVote', category, postId)),
+    deletePost: (category, postId) => dispatch(deletePost(category, postId))
   }
 }
 

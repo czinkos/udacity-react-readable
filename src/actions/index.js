@@ -45,6 +45,11 @@ export const setScore = (option, category, postId) => dispatch => {
     .then(() => fetchPosts(category)(dispatch));
 }
 
+export const deletePost = (category, postId) => dispatch => {
+  API
+    .deletePost(postId)
+    .then(() => fetchPosts(category)(dispatch));
+}
 
 export const receivePost = (post) => ({
   type: RECEIVE_POST,
