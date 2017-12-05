@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 
-import { fetchPosts, setSortBy } from '../actions';
+import { fetchPosts, setSortBy, setScore } from '../actions';
 
 class List extends Component {
 
@@ -33,9 +33,9 @@ class List extends Component {
               <div className="head">
                 <div className="title">
                   <span className="voteScore">
-                    <span className="arrow" onClick={ () => upVote(p.id) }>↑</span>
+                    <span className="arrow" onClick={ () => upVote(params.category, p.id) }>↑</span>
                     <span>{p.voteScore}</span>
-                    <span className="arrow" onClick={ () => downVote(p.id) }>↓</span>
+                    <span className="arrow" onClick={ () => downVote(params.category, p.id) }>↓</span>
                   </span>
                   <Link to={'/' + p.category + '/' + p.id}>{p.title}</Link>
                 </div>
@@ -68,7 +68,9 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
   return {
     fetchPosts: (category) => dispatch(fetchPosts(category)),
-    setSortBy: sortBy => dispatch(setSortBy(sortBy))
+    setSortBy: sortBy => dispatch(setSortBy(sortBy)),
+    upVote: (category, postId) => dispatch(setScore('upVote', category, postId)),
+    downVote: (category, postId) => dispatch(setScore('downVote', category, postId))
   }
 }
 

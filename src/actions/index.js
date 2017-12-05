@@ -39,7 +39,14 @@ export const fetchPosts = (category) => dispatch => {
     .then(data => dispatch(receivePosts(data)));
 }
 
-export const receivePost = ( post ) => ({
+export const setScore = (option, category, postId) => dispatch => {
+  API
+    .setScore(option, postId)
+    .then(() => fetchPosts(category)(dispatch));
+}
+
+
+export const receivePost = (post) => ({
   type: RECEIVE_POST,
   post
 })
