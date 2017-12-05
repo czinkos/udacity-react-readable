@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import { PostHeader } from './PostHeader';
 
 import { fetchPosts, setSortBy, setScore, deletePost } from '../actions';
 
@@ -15,12 +16,11 @@ class List extends Component {
   }
 
   render() {
-    const { match: { params }, posts, setSortBy, loading, sortBy, upVote, downVote, deletePost } = this.props;
-
-    const formatDate = timestamp => {
-      const date = new Date(timestamp);
-      return date.toLocaleTimeString() + ' - ' + date.toLocaleDateString();
-    }
+    const {
+      match: { params },
+      posts, setSortBy, loading,
+      sortBy, upVote, downVote, deletePost
+    } = this.props;
 
     return (
       <div className="list">
@@ -35,27 +35,11 @@ class List extends Component {
         <div>
         { !loading && posts.map(p =>
             <div key={p.id} className="post">
-              <div className="head">
-                <div className="title">
-                  <span className="voteScore">
-                    <span className="arrow" onClick={ () => upVote(params.category, p.id) }>↑</span>
-                    <span>{p.voteScore}</span>
-                    <span className="arrow" onClick={ () => downVote(params.category, p.id) }>↓</span>
-                  </span>
-                  <Link to={'/' + p.category + '/' + p.id}>{p.title}</Link>
-                </div>
-                <div className="category">{p.category}</div>
-              </div>
-              <div className="dateline">
-                <div className="author">{p.author}</div>
-                <div className="commentCount">{p.commentCount} comment{ p.commentCount > 1 ? 's' : ''}</div>
-                <div className="timestamp">{formatDate(p.timestamp)}</div>
-                <div>
-                  <Link to={'/edit/' + p.category + '/' + p.id}>Edit</Link> |
-                  <a href=""
-                     onClick={(e) => e.preventDefault() && deletePost(p.category, p.id)}>Delete</a>
-                </div>
-              </div>
+              <PostHeader category={params.category}
+                upVote={upVote}
+                downVote={downVote}
+                post={p}
+                deletePost={deletePost} />
             </div>
           )
         }
