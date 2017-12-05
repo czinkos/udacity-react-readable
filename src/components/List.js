@@ -15,7 +15,7 @@ class List extends Component {
   }
 
   render() {
-    const { match: { params }, posts, setSortBy, loading, sortBy } = this.props;
+    const { match: { params }, posts, setSortBy, loading, sortBy, upVote, downVote } = this.props;
 
     return (
       <div className="list">
@@ -23,16 +23,20 @@ class List extends Component {
         <div id="sort">
           Sort by:{' '}
           <button className={ sortBy === 'timestamp' ? 'selected' : ''  }
-                  onClick={ () => setSortBy('timestamp')}>timestamp</button>
+                  onClick={ () => setSortBy('timestamp')}>date</button>
           <button className={ sortBy === 'voteScore' ? 'selected' : ''  }
-                  onClick={ () => setSortBy('voteScore')}>voteScore</button>
+                  onClick={ () => setSortBy('voteScore')}>score</button>
         </div>
         <div>
         { !loading && posts.map(p =>
             <div key={p.id} className="post">
               <div className="head">
                 <div className="title">
-                  <span className="voteScore">{p.voteScore}</span>
+                  <span className="voteScore">
+                    <span className="arrow" onClick={ () => upVote(p.id) }>↑</span>
+                    <span>{p.voteScore}</span>
+                    <span className="arrow" onClick={ () => downVote(p.id) }>↓</span>
+                  </span>
                   <Link to={'/' + p.category + '/' + p.id}>{p.title}</Link>
                 </div>
                 <div className="category">{p.category}</div>
@@ -41,6 +45,7 @@ class List extends Component {
                 <div className="author">{p.author}</div>
                 <div className="commentCount">{p.commentCount} comment{ p.commentCount > 1 ? 's' : ''}</div>
                 <div className="timestamp">{new Date(p.timestamp).toLocaleDateString()}</div>
+                <div><Link to={'/edit/' + p.category + '/' + p.id}>Edit</Link></div>
               </div>
             </div>
           )
@@ -50,7 +55,6 @@ class List extends Component {
     )
   }
 }
-
 
 function mapStateToProps (state) {
   const { posts, loading, sortBy } = state;
