@@ -45,6 +45,7 @@ export const receivePost = ( post ) => ({
 })
 
 export const fetchPost = (category, postId) => dispatch => {
+  dispatch(setLoading(true));
   API
     .fetchPost(category, postId)
     .then(data => dispatch(receivePost(data)))

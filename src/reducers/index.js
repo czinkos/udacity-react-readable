@@ -45,6 +45,7 @@ function reducer(state = initialState, action) {
     case RECEIVE_POST:
       return {
         ...state,
+        loading: false,
         post: action.post
       }
     default :
