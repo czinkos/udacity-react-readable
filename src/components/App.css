@@ -24,14 +24,14 @@
 
 #sort button {
   background-color: white;
-  border: 1px solid black;
+  border: 1px solid #666;
   font-size: 120%;
-  padding: 1em;
+  padding: 0.5em 1em;
   cursor: pointer;
 }
 
 #sort button.selected {
-  background-color: #666;
+  background-color: #888;
   color: white;
 }
 
