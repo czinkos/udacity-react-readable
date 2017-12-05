@@ -15,18 +15,18 @@ class List extends Component {
   }
 
   render() {
-    const { match: { params }, posts, setSortBy } = this.props;
+    const { match: { params }, posts, setSortBy, loading } = this.props;
+
     return (
       <div className="list">
-        <h1>{ params.category }</h1>
+        <h1>{ params.category || 'All' } { loading && <small>loading...</small> }</h1>
         <div id="sort">
-          Sort by
+          Sort by:{' '}
           <button onClick={ () => setSortBy('timestamp')}>timestamp</button>
           <button onClick={ () => setSortBy('voteScore')}>voteScore</button>
         </div>
         <div>
-        {
-          posts.map(p =>
+        { !loading && posts.map(p =>
             <div key={p.id} className="post">
               <div className="head">
                 <div className="title">
@@ -51,7 +51,8 @@ class List extends Component {
 
 function mapStateToProps (state) {
   return {
-    ...state
+    posts: state.posts,
+    loading: state.loading
   }
 }
 

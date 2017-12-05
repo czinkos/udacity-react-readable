@@ -1,4 +1,5 @@
 import {
+  SET_LOADING,
   SET_SORTBY,
   RECEIVE_CATEGORIES,
   RECEIVE_POSTS,
@@ -18,6 +19,11 @@ const sort = (arr, field) => arr.slice().sort( (a, b) => a[field] > b[field] );
 
 function reducer(state = initialState, action) {
   switch (action.type) {
+    case SET_LOADING:
+      return {
+        ...state,
+        loading: action.loading
+      }
     case SET_SORTBY:
       return {
         ...state,
@@ -33,6 +39,7 @@ function reducer(state = initialState, action) {
       const { posts } = action;
       return {
         ...state,
+        loading: false,
         posts: sort(posts.filter(e => !e.deleted), state.sortBy)
       }
     case RECEIVE_POST:
