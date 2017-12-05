@@ -9,6 +9,11 @@
   display: flex;
 }
 
+#categories div {
+  padding: 0.5em 1em;
+  font-size: 120%;
+}
+
 #header > div {
   margin: 1em;
 }
