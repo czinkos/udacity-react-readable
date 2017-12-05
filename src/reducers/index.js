@@ -10,8 +10,7 @@ const initialState = {
   post: null,
   sortBy: 'timestamp',
   posts: [],
-  comments: {},
-  votes: {},
+  comments: [],
   categories: []
 }
 
