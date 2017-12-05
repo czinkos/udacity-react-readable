@@ -5,7 +5,7 @@ import { Route, Link, withRouter } from 'react-router-dom';
 import List from './List';
 import Post from './Post';
 
-import { fetchCategories, fetchPosts, fetchPost, setSortBy } from '../actions';
+import { fetchCategories } from '../actions';
 
 import './App.css';
 
@@ -17,25 +17,7 @@ class App extends Component {
 
   render() {
 
-    const { categories, posts, post, sortBy, fetchPosts, fetchPost, setSortBy } = this.props;
-
-    const renderList = ({ match }) => {
-      const category = match.params.category;
-      fetchPosts(category);
-      return <List
-          sortBy={sortBy}
-          onSortByChange={setSortBy}
-          title={ category ? category : 'All'}
-          posts={ posts } />
-    }
-
-    const renderPost = (edit, post) => ({match}) => {
-      const { category, post_id } = match.params;
-      this.props.fetchPost(category, post_id);
-      return <Post
-        post={post}
-        edit={edit} />
-    }
+    const { categories } = this.props;
 
     return (
       <div className="App">
@@ -51,10 +33,10 @@ class App extends Component {
           </div>
         </div>
         <div id="main">
-          <Route exact path="/" render={renderList} />
-          <Route exact path="/:category" render={renderList} />
-          <Route exact path="/:category/:post_id" render={renderPost(false, post)} />
-          <Route exact path="/edit/:category/:post_id" render={renderPost(true, post)}/>
+          <Route exact path="/" component={List} />
+          <Route exact path="/:category" component={List} />
+          <Route exact path="/:category/:post_id" render={Post} />
+          <Route exact path="/edit/:category/:post_id" render={Post}/>
         </div>
       </div>
     );
@@ -63,16 +45,13 @@ class App extends Component {
 
 function mapStateToProps (state) {
   return {
-    ...state
+    categories: state.categories
   }
 }
 
 function mapDispatchToProps (dispatch) {
   return {
-    fetchCategories: () => dispatch(fetchCategories()),
-    fetchPosts: (category) => dispatch(fetchPosts(category)),
-    fetchPost: (category, post_id) => dispatch(fetchPost(category, post_id)),
-    setSortBy: sortBy => dispatch(setSortBy(sortBy))
+    fetchCategories: () => dispatch(fetchCategories())
   }
 }
 

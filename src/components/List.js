@@ -1,17 +1,28 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Link, withRouter } from 'react-router-dom';
 
+import { fetchPosts, setSortBy } from '../actions';
 
 class List extends Component {
+
+  componentDidMount = () => this.props.fetchPosts(this.props.match.params.category);
+
+  componentDidUpdate = (prevProps) => {
+    const { match: { params } } = this.props;
+    if (params.category !== prevProps.match.params.category)
+      this.props.fetchPosts(params.category);
+  }
+
   render() {
-    const { title, posts, location, loading, sortBy, onSortByChange } = this.props;
+    const { match: { params }, posts, setSortBy } = this.props;
     return (
       <div className="list">
-        <h1>{ title }</h1>
+        <h1>{ params.category }</h1>
         <div id="sort">
           Sort by
-          <button onClick={ () => onSortByChange('timestamp')}>timestamp</button>
-          <button onClick={ () => onSortByChange('voteScore')}>voteScore</button>
+          <button onClick={ () => setSortBy('timestamp')}>timestamp</button>
+          <button onClick={ () => setSortBy('voteScore')}>voteScore</button>
         </div>
         <div>
         {
@@ -26,7 +37,7 @@ class List extends Component {
               </div>
               <div className="dateline">
                 <div className="author">{p.author}</div>
-                <div className="timestamp">{p.timestamp}</div>
+                <div className="timestamp">{new Date(p.timestamp).toLocaleDateString()}</div>
               </div>
             </div>
           )
@@ -37,4 +48,21 @@ class List extends Component {
   }
 }
 
-export default List;
+
+function mapStateToProps (state) {
+  return {
+    ...state
+  }
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    fetchPosts: (category) => dispatch(fetchPosts(category)),
+    setSortBy: sortBy => dispatch(setSortBy(sortBy))
+  }
+}
+
+export default withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(List));
