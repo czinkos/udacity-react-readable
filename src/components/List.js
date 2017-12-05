@@ -15,15 +15,17 @@ class List extends Component {
   }
 
   render() {
-    const { match: { params }, posts, setSortBy, loading } = this.props;
+    const { match: { params }, posts, setSortBy, loading, sortBy } = this.props;
 
     return (
       <div className="list">
         <h1>{ params.category || 'All' } { loading && <small>loading...</small> }</h1>
         <div id="sort">
           Sort by:{' '}
-          <button onClick={ () => setSortBy('timestamp')}>timestamp</button>
-          <button onClick={ () => setSortBy('voteScore')}>voteScore</button>
+          <button className={ sortBy === 'timestamp' ? 'selected' : ''  }
+                  onClick={ () => setSortBy('timestamp')}>timestamp</button>
+          <button className={ sortBy === 'voteScore' ? 'selected' : ''  }
+                  onClick={ () => setSortBy('voteScore')}>voteScore</button>
         </div>
         <div>
         { !loading && posts.map(p =>
@@ -37,6 +39,7 @@ class List extends Component {
               </div>
               <div className="dateline">
                 <div className="author">{p.author}</div>
+                <div className="commentCount">{p.commentCount} comment{ p.commentCount > 1 ? 's' : ''}</div>
                 <div className="timestamp">{new Date(p.timestamp).toLocaleDateString()}</div>
               </div>
             </div>
@@ -50,9 +53,11 @@ class List extends Component {
 
 
 function mapStateToProps (state) {
+  const { posts, loading, sortBy } = state;
   return {
-    posts: state.posts,
-    loading: state.loading
+    posts,
+    loading,
+    sortBy
   }
 }
 
