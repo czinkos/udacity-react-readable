@@ -34,7 +34,7 @@ class Post extends Component {
             <div key={comment.id} className="comment">
               <CommentHeader comment={comment}/>
               <div className="body">
-                {comments.body}
+                {comment.body}
               </div>
             </div>
           )}

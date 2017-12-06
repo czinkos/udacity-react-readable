@@ -21,6 +21,15 @@ export const fetchPost = postId =>
   fetch(api + '/posts/' + postId, { headers })
     .then(res => res.json());
 
+export const fetchComments = postId =>
+  fetch(api + '/posts/' + postId + '/comments', { headers })
+    .then(res => res.json());
+
+export const fetchComment = commentId =>
+  fetch(api + '/comments/' + commentId, { headers })
+    .then(res => res.json());
+
+
 export const setScore = (option, postId) =>
   fetch(api + '/posts/' + postId,
     {
@@ -34,8 +43,16 @@ export const setScore = (option, postId) =>
     .then(res => res.json());
 
 
-export const deletePost = (option, postId) =>
+export const deletePost = postId =>
   fetch(api + '/posts/' + postId,
+    {
+      headers,
+      method: 'DELETE'
+    })
+    .then(res => res.json());
+
+export const deleteComment = commentId =>
+  fetch(api + '/posts/' + commentId,
     {
       headers,
       method: 'DELETE'

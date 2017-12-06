@@ -3,11 +3,14 @@ import {
   SET_SORTBY,
   RECEIVE_CATEGORIES,
   RECEIVE_POSTS,
-  RECEIVE_POST
+  RECEIVE_POST,
+  RECEIVE_COMMENTS,
+  RECEIVE_COMMENT,
 } from '../actions'
 
 const initialState = {
   post: null,
+  comment: null,
   loading: false,
   sortBy: 'timestamp',
   posts: [],
@@ -37,11 +40,10 @@ function reducer(state = initialState, action) {
         categories: action.categories
       }
     case RECEIVE_POSTS:
-      const { posts } = action;
       return {
         ...state,
         loading: false,
-        posts: sort(posts.filter(notDeleted), state.sortBy)
+        posts: sort(action.posts.filter(notDeleted), state.sortBy)
       }
     case RECEIVE_POST:
       return {
@@ -49,6 +51,18 @@ function reducer(state = initialState, action) {
         loading: false,
         post: action.post
       }
+    case RECEIVE_COMMENTS:
+      return {
+        ...state,
+        loading: false,
+        comments: sort(action.comments.filter(notDeleted), state.sortBy)
+      }
+    case RECEIVE_COMMENT:
+      return {
+        ...state,
+        loading: false,
+        comment: action.comment
+      } 
     default :
       return state
   }

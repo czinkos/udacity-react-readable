@@ -44,6 +44,7 @@ button {
   display: flex;
   flex-direction: column;
   margin-top: 1em;
+  padding: 0.5em;
 }
 
 .post .head, .post .dateline {
@@ -81,3 +82,22 @@ button {
   font-weight: bold;
 }
 
+.comments {
+  padding-left: 2em;
+  margin-top: 1em;
+  background-color: #EEE;
+}
+
+.post {
+  background-color: #DDD;
+}
+
+.post .comment {
+  padding: 0.5em;
+}
+
+.body {
+  font-size: 120%;
+  padding-top: 0.5em;
+  border-top: 1px solid #AAA;
+}
