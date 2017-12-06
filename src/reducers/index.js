@@ -8,6 +8,7 @@ import {
 
 const initialState = {
   post: null,
+  loading: false,
   sortBy: 'timestamp',
   posts: [],
   comments: [],

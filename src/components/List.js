@@ -15,6 +15,10 @@ class List extends Component {
       this.props.fetchPosts(params.category);
   }
 
+  onChange = fn => postId => {
+    fn(postId, fetchPosts(this.props.match.params.category));
+  }
+
   render() {
     const {
       match: { params },
@@ -33,13 +37,13 @@ class List extends Component {
                   onClick={ () => setSortBy('voteScore')}>score</button>
         </div>
         <div>
-        { !loading && posts.map(p =>
-            <div key={p.id} className="post">
-              <PostHeader category={params.category}
-                upVote={upVote}
-                downVote={downVote}
-                post={p}
-                deletePost={deletePost} />
+        { !loading && posts.map(post =>
+            <div key={post.id} className="post">
+              <PostHeader category={post.category}
+                onUpVote={this.onChange(upVote)}
+                onDownVote={this.onChange(downVote)}
+                post={post}
+                onDeletePost={this.onChange(deletePost)} />
             </div>
           )
         }
@@ -60,11 +64,11 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    fetchPosts: (category) => dispatch(fetchPosts(category)),
+    fetchPosts: category => dispatch(fetchPosts(category)),
     setSortBy: sortBy => dispatch(setSortBy(sortBy)),
-    upVote: (category, postId) => dispatch(setScore('upVote', category, postId)),
-    downVote: (category, postId) => dispatch(setScore('downVote', category, postId)),
-    deletePost: (category, postId) => dispatch(deletePost(category, postId))
+    upVote: (postId, nextAction) => dispatch(setScore('upVote', postId, nextAction)),
+    downVote: (postId, nextAction) => dispatch(setScore('downVote', postId, nextAction)),
+    deletePost: (postId, nextAction) => dispatch(deletePost(postId, nextAction))
   }
 }
 

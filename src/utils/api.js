@@ -13,12 +13,12 @@ export const fetchCategories = () =>
   fetch(api + '/categories', { headers })
     .then(res => res.json());
 
-export const fetchPosts = (category) =>
+export const fetchPosts = category =>
   fetch(api + (category ? '/' + category : '') + '/posts', { headers })
     .then(res => res.json());
 
-export const fetchPost = (category, postId) =>
-  fetch(api + '/' + category + '/' + postId, { headers })
+export const fetchPost = postId =>
+  fetch(api + '/posts/' + postId, { headers })
     .then(res => res.json());
 
 export const setScore = (option, postId) =>

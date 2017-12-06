@@ -40,19 +40,19 @@ button {
   color: white;
 }
 
-.list .post {
+.post {
   display: flex;
   flex-direction: column;
   margin-top: 1em;
 }
 
-.list .post .head, .list .post .dateline {
+.post .head, .post .dateline {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
-.list .post .voteScore .arrow {
+.post .voteScore .arrow {
   width: 1.5em;
   display: inline-block;
   text-align: center;
@@ -60,23 +60,23 @@ button {
   background-color: #CCC;
 }
 
-.list .post .voteScore {
+.post .voteScore {
   margin-right: 0em;
   font-weight: normal;
   display: inline-block;
   width: 6em;
 }
 
-.list .post .voteScore span:nth-child(2) {
+.post .voteScore span:nth-child(2) {
   font-weight: bold;
   padding: 0em 0.5em;
 }
 
-.list .post .author {
+.post .author {
   font-style: italic;
 }
 
-.list .post .head {
+.post .head {
   font-size: 130%;
   font-weight: bold;
 }

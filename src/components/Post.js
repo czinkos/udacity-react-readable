@@ -2,27 +2,43 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { PostHeader } from './PostHeader';
+import { CommentHeader } from './CommentHeader';
+
+import { fetchPost, setScore, deletePost } from '../actions';
+import { formatDate } from '../utils/util';
 
 class Post extends Component {
 
   componentDidMount() {
-
+    this.props.fetchPost(this.props.match.params.post_id);
   }
 
-  componentDidUpdate() {
-
+  onChange = fn => postId => {
+    fn(postId, fetchPost(this.props.match.params.post_id));
   }
 
   render() {
-    const { category, upVote, downVote, post, deletePost } = this.props;
+    const { loading, category, upVote, downVote, post, comments, deletePost } = this.props;
 
     return (
-      <div id="post">
-        <PostHeader category={category}
-          upVote={upVote}
-          downVote={downVote}
-          post={post}
-          deletePost={deletePost} />
+      loading || post === null ? <h2>Loading...</h2> :
+      <div className="post">
+        <PostHeader category={post.category}
+                onUpVote={this.onChange(upVote)}
+                onDownVote={this.onChange(downVote)}
+                post={post}
+                onDeletePost={this.onChange(deletePost)} />
+        <div className="body">{post.body}</div>
+        <div className="comments">
+          {comments.map(comment =>
+            <div key={comment.id} className="comment">
+              <CommentHeader comment={comment}/>
+              <div className="body">
+                {comments.body}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     )
   }
@@ -39,10 +55,10 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    fetchPost: (id) => dispatch(fetchPost(id)),
-    upVote: (category, postId) => dispatch(setScore('upVote', category, postId)),
-    downVote: (category, postId) => dispatch(setScore('downVote', category, postId)),
-    deletePost: (category, postId) => dispatch(deletePost(category, postId))
+    fetchPost: id => dispatch(fetchPost(id)),
+    upVote: (postId, nextAction) => dispatch(setScore('upVote', postId, nextAction)),
+    downVote: (postId, nextAction) => dispatch(setScore('downVote', postId, nextAction)),
+    deletePost: (postId, nextAction) => dispatch(deletePost(postId, nextAction))
   }
 }
 

@@ -27,38 +27,38 @@ export const fetchCategories = () => dispatch => (
     .then(data => dispatch(receiveCategories(data)))
 );
 
-export const receivePosts = ( posts ) => ({
+export const receivePosts = posts => ({
   type: RECEIVE_POSTS,
   posts
 })
 
-export const fetchPosts = (category) => dispatch => {
+export const fetchPosts = category => dispatch => {
   dispatch(setLoading(true));
   API
     .fetchPosts(category)
     .then(data => dispatch(receivePosts(data)));
 }
 
-export const setScore = (option, category, postId) => dispatch => {
+export const setScore = (option, postId, nextAction) => dispatch => {
   API
     .setScore(option, postId)
-    .then(() => fetchPosts(category)(dispatch));
+    .then(() => dispatch(nextAction));
 }
 
-export const deletePost = (category, postId) => dispatch => {
+export const deletePost = (postId, nextAction) => dispatch => {
   API
     .deletePost(postId)
-    .then(() => fetchPosts(category)(dispatch));
+    .then(() => dispatch(nextAction));
 }
 
-export const receivePost = (post) => ({
+export const receivePost = post => ({
   type: RECEIVE_POST,
   post
 })
 
-export const fetchPost = (category, postId) => dispatch => {
+export const fetchPost = postId => dispatch => {
   dispatch(setLoading(true));
   API
-    .fetchPost(category, postId)
+    .fetchPost(postId)
     .then(data => dispatch(receivePost(data)))
 }
