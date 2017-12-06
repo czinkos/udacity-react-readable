@@ -29,7 +29,9 @@ class Post extends Component {
                 post={post}
                 onDeletePost={this.onChange(deletePost)} />
         <div className="body">{post.body}</div>
+        
         <div className="comments">
+          <div><button>New comment</button></div>
           {comments.map(comment =>
             <div key={comment.id} className="comment">
               <CommentHeader comment={comment}/>

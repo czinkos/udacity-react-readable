@@ -88,6 +88,14 @@ button {
   background-color: #EEE;
 }
 
+.comments > div:nth-child(1) {
+  text-align: right;
+}
+
+.author {
+  font-weight: bold;
+}
+
 .post {
   background-color: #DDD;
 }
