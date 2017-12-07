@@ -56,6 +56,7 @@ class List extends Component {
           this.state.newPost &&
           <EditPost post={ {} }
             onCancel={ () => this.setState( { newPost: false } ) }
+            onSave={ () => false }
             categories={categories}/>
         }
         <div>
@@ -72,6 +73,7 @@ class List extends Component {
               { this.state.editPostId === post.id &&
               <EditPost post={post}
                 onCancel={() => this.setState({ editPostId: null })}
+                onSave={ () => false }
                 categories={categories}/>
               }
             </div>

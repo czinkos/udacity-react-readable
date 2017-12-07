@@ -12,7 +12,7 @@ class EditPost extends Component {
   }
 
   componentDidMount() {
-    this.setState( Object.assign({}, this.state, this.props.post));
+    this.setState(Object.assign({}, this.state, this.props.post));
   }
 
   setValue = (key, value) => {
@@ -32,7 +32,7 @@ class EditPost extends Component {
       <div className="editPost">
         <div>
           <div>Id: {post.id}</div>
-          <div>Timestamp: {formatDate(post.timestamp || Date.now())}</div>
+          <div>Last edited: {formatDate(post.timestamp || Date.now())}</div>
           <div><label>Author</label>:
             <input onChange={ e => this.setValue('author', e.target.value) } value={this.state.author} /></div>
           <div><label>Title</label>:

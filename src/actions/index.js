@@ -53,6 +53,18 @@ export const deletePost = (postId, nextAction) => dispatch => {
     .then(() => dispatch(nextAction));
 }
 
+export const updatePost = (post, nextAction) => dispatch => {
+  API
+    .updatePost(post)
+    .then(() => dispatch(nextAction));
+}
+
+export const createPost = (post, nextAction) => dispatch => {
+  API
+    .createPost(post)
+    .then(() => dispatch(nextAction));
+}
+
 export const receivePost = post => ({
   type: RECEIVE_POST,
   post
@@ -100,4 +112,22 @@ export const fetchComments = postId => dispatch => {
   API
     .fetchComments(postId)
     .then(data => dispatch(receiveComments(data)));
+}
+
+export const updateComment = (comment, nextAction) => dispatch => {
+  API
+    .updateComment(comment)
+    .then(() => dispatch(nextAction));
+}
+
+export const createComment = (comment, nextAction) => dispatch => {
+  API
+    .createComment(comment)
+    .then(() => dispatch(nextAction));
+}
+
+export const setCommentScore = (option, commentId, nextAction) => dispatch => {
+  API
+    .setCommentScore(option, commentId)
+    .then(() => dispatch(nextAction));
 }

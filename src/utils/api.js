@@ -51,10 +51,70 @@ export const deletePost = postId =>
     })
     .then(res => res.json());
 
+export const updatePost = post =>
+  fetch(api + '/posts/' + post.id,
+    {
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json'
+      },
+      method: 'PUT',
+      body: JSON.stringify(post)
+    })
+    .then(res => res.json());
+
+export const createPost = post =>
+  fetch(api + '/posts',
+    {
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify(post)
+    })
+    .then(res => res.json());
+
 export const deleteComment = commentId =>
   fetch(api + '/posts/' + commentId,
     {
       headers,
       method: 'DELETE'
+    })
+    .then(res => res.json());
+
+export const updateComment = comment =>
+  fetch(api + '/comments/' + comment.id,
+    {
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json'
+      },
+      method: 'PUT',
+      body: JSON.stringify(comment)
+    })
+    .then(res => res.json());
+
+export const createComment = comment =>
+  fetch(api + '/comments',
+    {
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify(comment)
+    })
+    .then(res => res.json());
+
+export const setCommentScore = (option, commentId) =>
+  fetch(api + '/comments/' + commentId,
+    {
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: `{ "option": "${option}" }`
     })
     .then(res => res.json());
