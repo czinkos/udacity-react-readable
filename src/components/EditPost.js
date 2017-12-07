@@ -49,7 +49,7 @@ class EditPost extends Component {
         </div>
         <div className="buttons">
           <button onClick={this.onCancel}>Cancel</button>
-          <button onClick={onSave} disabled={!this.state.isDirty}>Save</button>
+          <button onClick={() => onSave(this.state)} disabled={!this.state.isDirty}>Save</button>
         </div>
       </div>
     )
