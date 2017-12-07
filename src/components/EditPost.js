@@ -7,15 +7,26 @@ class EditPost extends Component {
     author: '',
     title: '',
     body: '',
-    category: ''
+    category: '',
+    isDirty: false
   }
 
   componentDidMount() {
     this.setState( Object.assign({}, this.state, this.props.post));
   }
 
+  setValue = (key, value) => {
+    this.setState({ [key]: value, isDirty: true });
+  }
+
+  onCancel = () => {
+    if (!this.state.isDirty || window.confirm('Are you sure?')) {
+      this.props.onCancel();
+    }
+  }
+
   render() {
-    const { post, categories, onCancel, onSave} = this.props;
+    const { post, categories, onSave} = this.props;
 
     return (
       <div className="editPost">
@@ -23,13 +34,13 @@ class EditPost extends Component {
           <div>Id: {post.id}</div>
           <div>Timestamp: {formatDate(post.timestamp || Date.now())}</div>
           <div><label>Author</label>:
-            <input onChange={ e => this.setState( {author: e.target.value} )} value={this.state.author} /></div>
+            <input onChange={ e => this.setValue('author', e.target.value) } value={this.state.author} /></div>
           <div><label>Title</label>:
-            <input onChange={ e => this.setState( {title: e.target.value} )} value={this.state.title} /></div>
+            <input onChange={ e => this.setValue('title', e.target.value) } value={this.state.title} /></div>
           <div><label>Body</label>:
-            <textarea onChange={ e => this.setState( {body: e.target.value} )} value={this.state.body}></textarea></div>
+            <textarea onChange={ e => this.setValue('body', e.target.value) } value={this.state.body}></textarea></div>
           <div><label>Category</label>:
-            <select onChange={e => this.setState( {category: e.target.value} )} value={this.state.category}>
+            <select onChange={ e => this.setValue('category', e.target.value) } value={this.state.category}>
               {categories.map(category =>
                 <option key={category.path} value={category.path}>{category.name}</option>
               )}
@@ -37,8 +48,8 @@ class EditPost extends Component {
           </div>
         </div>
         <div className="buttons">
-          <button onClick={onCancel}>Cancel</button>
-          <button onClick={onSave}>Save</button>
+          <button onClick={this.onCancel}>Cancel</button>
+          <button onClick={onSave} disabled={!this.state.isDirty}>Save</button>
         </div>
       </div>
     )
