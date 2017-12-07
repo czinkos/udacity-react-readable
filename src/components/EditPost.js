@@ -4,6 +4,8 @@ import { formatDate } from '../utils/util';
 
 class EditPost extends Component {
   state = {
+    id: '',
+    timestamp: '',
     author: '',
     title: '',
     body: '',
@@ -26,13 +28,13 @@ class EditPost extends Component {
   }
 
   render() {
-    const { post, categories, onSave} = this.props;
+    const {categories, onSave} = this.props;
 
     return (
       <div className="editPost">
         <div>
-          <div>Id: {post.id}</div>
-          <div>Last edited: {formatDate(post.timestamp || Date.now())}</div>
+          <div>Id: {this.state.id}</div>
+          <div>Last edited: {formatDate(this.state.timestamp || Date.now())}</div>
           <div><label>Author</label>:
             <input onChange={ e => this.setValue('author', e.target.value) } value={this.state.author} /></div>
           <div><label>Title</label>:
