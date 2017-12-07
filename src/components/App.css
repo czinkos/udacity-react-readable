@@ -40,6 +40,11 @@ button {
   color: white;
 }
 
+#sort {
+  display: flex;
+  justify-content: space-between;
+}
+
 .post {
   display: flex;
   flex-direction: column;
@@ -108,4 +113,21 @@ button {
   font-size: 120%;
   padding-top: 0.5em;
   border-top: 1px solid #AAA;
+}
+
+.editPost {
+  border: 1px solid #333;
+  padding: 1em;
+}
+
+input, select, textarea {
+  display: block;
+  width: 80%;
+  font-size: 120%;
+  padding: 0.2em 0.5em;
+  margin-bottom: 0.5em;
+}
+
+textarea {
+  height: 100px;
 }

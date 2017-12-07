@@ -22,9 +22,6 @@ class App extends Component {
     return (
       <div className="App">
         <div id="header">
-          <div id="newPost">
-            <button onClick={() => false}>New Post</button>
-          </div>
           <div id="categories">
               <div><Link to="/">All</Link></div>
             {categories.map( ({ name, path }) =>
@@ -36,7 +33,6 @@ class App extends Component {
           <Route exact path="/" component={List} />
           <Route exact path="/:category" component={List} />
           <Route exact path="/:category/:post_id" component={Post} />
-          <Route exact path="/edit/:category/:post_id" component={Post}/>
         </div>
       </div>
     );
