@@ -62,7 +62,7 @@ function reducer(state = initialState, action) {
         ...state,
         loading: false,
         comment: action.comment
-      } 
+      }
     default :
       return state
   }
