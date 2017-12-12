@@ -3,8 +3,17 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { PostHeader } from './PostHeader';
 import EditPost from './EditPost';
+import { generateId } from '../utils/util';
 
-import { fetchPost, fetchPosts, setSortBy, setScore, deletePost } from '../actions';
+import {
+  fetchPost,
+  fetchPosts,
+  setSortBy,
+  setScore,
+  deletePost,
+  createPost,
+  updatePost
+} from '../actions';
 
 class List extends Component {
 
@@ -28,6 +37,23 @@ class List extends Component {
   onEditPost = postId => {
     fetchPost(postId);
     this.setState({ editPostId: postId });
+  }
+
+  onCreate = post => {
+    this.props.createPost({
+      ...post,
+      id: generateId(),
+      timestamp: Date.now()
+    }, fetchPosts(this.props.match.params.category));
+    this.setState({newPost: false});
+  }
+
+  onUpdate = post => {
+    this.props.updatePost({
+      ...post,
+      timestamp: Date.now()
+    }, fetchPosts(this.props.match.params.category));
+    this.setState({editPostId: null});
   }
 
   render() {
@@ -56,7 +82,7 @@ class List extends Component {
           this.state.newPost &&
           <EditPost
             onCancel={ () => this.setState( { newPost: false } ) }
-            onSave={ () => false }
+            onSave={this.onCreate}
             categories={categories}/>
         }
         <div>
@@ -73,7 +99,7 @@ class List extends Component {
               { this.state.editPostId === post.id &&
               <EditPost post={post}
                 onCancel={() => this.setState({ editPostId: null })}
-                onSave={ () => false }
+                onSave={this.onUpdate}
                 categories={categories}/>
               }
             </div>
@@ -102,7 +128,9 @@ function mapDispatchToProps (dispatch) {
     setSortBy: sortBy => dispatch(setSortBy(sortBy)),
     upVote: (postId, nextAction) => dispatch(setScore('upVote', postId, nextAction)),
     downVote: (postId, nextAction) => dispatch(setScore('downVote', postId, nextAction)),
-    deletePost: (postId, nextAction) => dispatch(deletePost(postId, nextAction))
+    deletePost: (postId, nextAction) => dispatch(deletePost(postId, nextAction)),
+    updatePost: (postId, nextAction) => dispatch(updatePost(postId, nextAction)),
+    createPost: (postId, nextAction) => dispatch(createPost(postId, nextAction))
   }
 }
 

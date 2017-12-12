@@ -16,7 +16,16 @@ class EditPost extends Component {
   }
 
   componentDidMount() {
-    this.props.post && this.setState({ post: this.props.post });
+    if (this.props.post) {
+      this.setState({ post: this.props.post });
+    } else {
+      this.setState({
+        post: {
+          ...this.state.post,
+          category: this.props.categories[0].path
+        }
+      });
+    }
   }
 
   setValue = (key, value) => {
@@ -30,12 +39,18 @@ class EditPost extends Component {
 
   onCancel = () => {
     if (!this.state.isDirty || window.confirm('Are you sure?')) {
+      this.setState({ isDirty: false });
       this.props.onCancel();
     }
   }
 
+  onSave = () => {
+    this.setState({ isDirty: false });
+    this.props.onSave(this.state.post);
+  }
+
   render() {
-    const {categories, onSave} = this.props;
+    const { categories } = this.props;
     const { post, isDirty } = this.state;
 
     return (
@@ -64,7 +79,7 @@ class EditPost extends Component {
         </div>
         <div className="buttons">
           <button onClick={this.onCancel}>Cancel</button>
-          <button onClick={() => onSave(post)} disabled={!isDirty}>Save</button>
+          <button onClick={this.onSave} disabled={!isDirty}>Save</button>
         </div>
       </div>
     )
